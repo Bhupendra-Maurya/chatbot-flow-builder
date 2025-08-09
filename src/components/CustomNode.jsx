@@ -27,11 +27,21 @@ const CustomNode = ({ data }) => {
         {data.label}
       </div>
 
-      {/* Handles for connections */}
-      <Handle type="target" position={Position.Left} />
-      <Handle type="source" position={Position.Right} />
+       {/* Incoming connection */}
+      <Handle
+        type="target"
+        position={Position.Left}
+        style={{ background: '#555' }}
+      />
+       {/* Outgoing connection */}
+      <Handle
+        type="source"
+        position={Position.Right}
+        style={{ background: '#555' }}
+      />
     </div>
   );
 };
 
 export default CustomNode;
+

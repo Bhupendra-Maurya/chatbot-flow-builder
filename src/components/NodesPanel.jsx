@@ -1,4 +1,3 @@
-// NodesPanel.jsx
 const NodesPanel = () => {
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
