@@ -43,7 +43,7 @@ const NodesPanel = ({ visible }) => {
         padding: 10,
         background: "#f4f4f4",
         borderRight: "1px solid #ddd",
-        width: 250,
+        width: 300,
         transition: "opacity 0.3s ease",
         opacity: visible ? 1 : 0,
         pointerEvents: visible ? "auto" : "none",
