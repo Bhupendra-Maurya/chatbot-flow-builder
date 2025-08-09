@@ -1,13 +1,14 @@
-import React from 'react'
+import FlowCanvas from "./components/FlowCanvas";
+import NodesPanel from "./components/NodesPanel";
+import { ReactFlowProvider } from "@xyflow/react";
 
-const App = () => {
+export default function App() {
   return (
-    <div>
-       <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+    <div style={{ display: "flex", height: "100vh" }}>
+      <ReactFlowProvider>
+        <FlowCanvas />
+        <NodesPanel />
+      </ReactFlowProvider>
     </div>
-  )
+  );
 }
-
-export default App
