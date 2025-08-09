@@ -1,37 +1,37 @@
-import React from 'react';
 import { Handle, Position } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-export default function CustomNode({ data }) {
+const CustomNode = ({ data }) => {
   return (
     <div style={{
-      border: '1px solid #ccc',
-      borderRadius: 8,
-      width: 200,
+      border: '1px solid #ddd',
+      borderRadius: 6,
       background: '#fff',
       boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+      minWidth: 200
     }}>
-      {/* Header */}
+      {/* Top Bar */}
       <div style={{
         background: '#a7f3d0',
         padding: '5px 10px',
         fontWeight: 'bold',
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: 'space-between'
       }}>
-        <span>Send Message</span>
-        <span>💬</span>
+        <span>📩 Send Message</span>
+        <span>🟢</span>
       </div>
 
-      {/* Message Body */}
+      {/* Message */}
       <div style={{ padding: 10 }}>
-        {data.label || 'Default message'}
+        {data.label}
       </div>
 
-      {/* Handles */}
+      {/* Handles for connections */}
       <Handle type="target" position={Position.Left} />
       <Handle type="source" position={Position.Right} />
     </div>
   );
-}
+};
+
+export default CustomNode;

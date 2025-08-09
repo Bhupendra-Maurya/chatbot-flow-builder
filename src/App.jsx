@@ -1,14 +1,12 @@
-import FlowCanvas from "./components/FlowCanvas";
-import NodesPanel from "./components/NodesPanel";
-import { ReactFlowProvider } from "@xyflow/react";
-
+import FlowCanvas from './components/FlowCanvas'
+import NodesPanel from './components/NodesPanel'
 export default function App() {
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <ReactFlowProvider>
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <div style={{ flex: 1 }}>
         <FlowCanvas />
-        <NodesPanel />
-      </ReactFlowProvider>
+      </div>
+      <NodesPanel />
     </div>
   );
 }
