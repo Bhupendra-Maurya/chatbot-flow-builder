@@ -8,9 +8,7 @@ import ReactFlow, {
   useEdgesState,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import CustomNode from "./CustomNode";
-
-const nodeTypes = { sendMessage: CustomNode };
+import { nodeTypesMap } from '../utils/nodeConfig.js';
 
 export default function FlowCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -54,7 +52,7 @@ export default function FlowCanvas() {
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        nodeTypes={nodeTypes}
+        nodeTypes={nodeTypesMap}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
@@ -68,3 +66,4 @@ export default function FlowCanvas() {
     </div>
   );
 }
+
