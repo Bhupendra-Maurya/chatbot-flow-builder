@@ -1,14 +1,54 @@
-import React from 'react';
-import { NODE_TYPES } from '../utils/nodeConfig.js';
+// import React from 'react';
+// import { NODE_TYPES } from '../utils/nodeConfig.js';
 
-const NodesPanel = () => {
-  const onDragStart = (event, nodeType) => {
-    event.dataTransfer.setData('application/reactflow', nodeType);
-    event.dataTransfer.effectAllowed = 'move';
-  };
+// const NodesPanel = () => {
+//   const onDragStart = (event, nodeType) => {
+//     event.dataTransfer.setData('application/reactflow', nodeType);
+//     event.dataTransfer.effectAllowed = 'move';
+//   };
 
+//   return (
+//     <aside style={{ padding: 10, background: '#f4f4f4', borderRight: '1px solid #ddd' }}>
+//       <h4>Nodes Panel</h4>
+//       {NODE_TYPES.map((node) => (
+//         <div
+//           key={node.type}
+//           style={{
+//             padding: 8,
+//             marginBottom: 6,
+//             background: 'white',
+//             border: '1px solid #ccc',
+//             cursor: 'grab',
+//           }}
+//           draggable
+//           onDragStart={(event) => onDragStart(event, node.type)}
+//         >
+//           {node.label}
+//         </div>
+//       ))}
+//     </aside>
+//   );
+// };
+
+// export default NodesPanel;
+
+
+import React from "react";
+import { NODE_TYPES } from "../utils/nodeConfig.js";
+
+const NodesPanel = ({ visible }) => {
   return (
-    <aside style={{ padding: 10, background: '#f4f4f4', borderRight: '1px solid #ddd' }}>
+    <aside
+      style={{
+        padding: 10,
+        background: "#f4f4f4",
+        borderRight: "1px solid #ddd",
+        width: 250,
+        transition: "opacity 0.3s ease",
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
+      }}
+    >
       <h4>Nodes Panel</h4>
       {NODE_TYPES.map((node) => (
         <div
@@ -16,12 +56,15 @@ const NodesPanel = () => {
           style={{
             padding: 8,
             marginBottom: 6,
-            background: 'white',
-            border: '1px solid #ccc',
-            cursor: 'grab',
+            background: "white",
+            border: "1px solid #ccc",
+            cursor: "grab",
           }}
           draggable
-          onDragStart={(event) => onDragStart(event, node.type)}
+          onDragStart={(event) => {
+            event.dataTransfer.setData("application/reactflow", node.type);
+            event.dataTransfer.effectAllowed = "move";
+          }}
         >
           {node.label}
         </div>
