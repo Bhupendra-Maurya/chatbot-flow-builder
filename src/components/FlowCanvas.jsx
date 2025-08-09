@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import { useCallback, useRef, useEffect } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -10,10 +10,20 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { nodeTypesMap } from "../utils/nodeConfig.js";
 
-export default function FlowCanvas({ onSelectNode, selectedNode }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+const proOptions = { hideAttribution: true };
+export default function FlowCanvas({ onSelectNode, selectedNode, onNodesChange, onEdgesChange }) {
+  const [nodes, setNodes, rfOnNodesChange] = useNodesState([]);
+  const [edges, setEdges, rfOnEdgesChange] = useEdgesState([]);
   const nodeIdCounter = useRef(1);
+
+  // Remove node and connected edges
+  const removeNode = useCallback(
+    (id) => {
+      setNodes((nds) => nds.filter((node) => node.id !== id));
+      setEdges((eds) => eds.filter((edge) => edge.source !== id && edge.target !== id));
+    },
+    [setNodes, setEdges]
+  );
 
   const onConnect = useCallback(
     (params) => {
@@ -40,16 +50,21 @@ export default function FlowCanvas({ onSelectNode, selectedNode }) {
       if (!type) return;
 
       const position = { x: event.clientX - 250, y: event.clientY - 40 };
+      const id = `${type}-${+new Date()}`;
+
       const newNode = {
-        id: `${type}-${+new Date()}`,
+        id,
         type,
         position,
-        data: { label: `text message ${nodeIdCounter.current}` },
+        data: {
+          label: `text message ${nodeIdCounter.current}`,
+          onRemove: () => removeNode(id),
+        },
       };
       nodeIdCounter.current += 1;
       setNodes((nds) => nds.concat(newNode));
     },
-    [setNodes]
+    [setNodes, removeNode]
   );
 
   const onDragOver = useCallback((event) => {
@@ -79,8 +94,17 @@ export default function FlowCanvas({ onSelectNode, selectedNode }) {
     onSelectNode(null);
   }, [onSelectNode]);
 
+  // Keep parent updated about nodes and edges changes
+  useEffect(() => {
+    onNodesChange && onNodesChange(nodes);
+  }, [nodes, onNodesChange]);
+
+  useEffect(() => {
+    onEdgesChange && onEdgesChange(edges);
+  }, [edges, onEdgesChange]);
+
   // Allow editing the label from parent
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedNode) {
       setNodes((nds) =>
         nds.map((node) =>
@@ -96,14 +120,15 @@ export default function FlowCanvas({ onSelectNode, selectedNode }) {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypesMap}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onNodesChange={rfOnNodesChange}
+        onEdgesChange={rfOnEdgesChange}
         onConnect={onConnect}
         onDrop={onDrop}
         onDragOver={onDragOver}
         onEdgeClick={onEdgeClick}
         onNodeClick={onNodeClick}
         onPaneClick={onPaneClick}
+         proOptions={proOptions}
       >
         <Background />
         <MiniMap />
@@ -112,4 +137,3 @@ export default function FlowCanvas({ onSelectNode, selectedNode }) {
     </div>
   );
 }
-

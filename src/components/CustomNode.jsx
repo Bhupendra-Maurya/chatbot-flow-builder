@@ -20,10 +20,30 @@ const CustomNode = ({ data }) => {
           fontWeight: "bold",
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <span>📩 Send Message</span>
-        <span>🟢</span>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <span style={{ marginRight: 8 }}></span>
+          <button
+            onClick={data.onRemove}
+            style={{
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+              fontWeight: "bold",
+              fontSize: 16,
+              lineHeight: 1,
+              color: "#900",
+              padding: 0,
+              userSelect: "none",
+            }}
+            aria-label="Remove node"
+          >
+            ×
+          </button>
+        </div>
       </div>
 
       {/* Message */}
@@ -37,13 +57,12 @@ const CustomNode = ({ data }) => {
         {data.label}
       </div>
 
-      {/* Incoming connection */}
+      {/* Handles */}
       <Handle
         type="target"
         position={Position.Left}
         style={{ background: "#555" }}
       />
-      {/* Outgoing connection */}
       <Handle
         type="source"
         position={Position.Right}
